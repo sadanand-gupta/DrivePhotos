@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Premium Private Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #ec4899;
+      --dark: #0f0f23;
+      --dark-lighter: #1a1a2e;
+      --card: #16213e;
+      --text: #e4e4e7;
+      --text-muted: #a1a1aa;
+      --border: rgba(255,255,255,0.1);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      background: rgba(15, 15, 35, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+
+    .navbar.scrolled {
+      background: rgba(15, 15, 35, 0.95);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      cursor: pointer;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .user-btn {
+      padding: 10px 25px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: none;
+      border-radius: 25px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .user-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    /* HERO SECTION */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark-lighter) 100%);
+      position: relative;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.2), transparent);
+      top: -100px;
+      right: -100px;
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.2), transparent);
+      bottom: -100px;
+      left: -100px;
+      border-radius: 50%;
+    }
+
+    .hero-content {
+      text-align: center;
+      z-index: 1;
+      max-width: 900px;
+      padding: 0 40px;
+    }
+
+    .hero h1 {
+      font-size: 4.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      animation: fadeInUp 1s ease 0.4s both;
+    }
+
+    .btn-primary, .btn-secondary {
+      padding: 15px 40px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* FEATURES SECTION */
+    .section {
+      padding: 100px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 3rem;
+      margin-bottom: 60px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: var(--card);
+      padding: 40px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--primary);
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* GALLERY SECTION */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 1;
+      background: var(--card);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    /* DASHBOARD SECTION */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, var(--card), var(--dark-lighter));
+      padding: 30px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-content {
+      background: var(--card);
+      padding: 50px;
+      border-radius: 25px;
+      border: 1px solid var(--border);
+      max-width: 450px;
+      width: 90%;
+      text-align: center;
+      animation: modalSlideIn 0.3s ease;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-content h2 {
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .modal-content p {
+      color: var(--text-muted);
+      margin-bottom: 30px;
+    }
+
+    .modal-input {
+      width: 100%;
+      padding: 15px 20px;
+      background: var(--dark);
+      border: 2px solid var(--border);
+      border-radius: 15px;
+      color: var(--text);
+      font-size: 1rem;
+      margin-bottom: 20px;
+      transition: border-color 0.3s;
+    }
+
+    .modal-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .error-msg {
+      color: #ef4444;
+      font-size: 0.9rem;
+      margin-top: -10px;
+      margin-bottom: 20px;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      cursor: zoom-out;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90vh;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark-lighter);
+      padding: 60px 40px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    footer p {
+      color: var(--text-muted);
+    }
+
+    /* HIDDEN */
+    .hidden {
+      display: none !important;
+    }
+
+    /* LOADING */
+    .loading {
+      text-align: center;
+      padding: 60px;
+      color: var(--text-muted);
+    }
+
+    .spinner {
+      border: 3px solid var(--border);
+      border-top: 3px solid var(--primary);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero p { font-size: 1rem; }
+      .nav-links { display: none; }
+      .section-title { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="logo" onclick="showSection('home')">✦ PREMIUM</div>
+      <div class="nav-links">
+        <a onclick="showSection('home')">Home</a>
+        <a onclick="showSection('features')">Features</a>
+        <a onclick="requestAccess('gallery')">Gallery</a>
+        <a onclick="requestAccess('dashboard')">Dashboard</a>
+        <a onclick="showSection('contact')">Contact</a>
+      </div>
+      <button class="user-btn" onclick="requestAccess('dashboard')" id="userBtn">
+        <span id="userText">Login</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HOME SECTION -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Premium Platform</h1>
+      <p>Experience the next generation of private content management with enterprise-grade security and stunning design</p>
+      <div class="hero-buttons">
+        <button class="btn-primary" onclick="requestAccess('dashboard')">Get Started</button>
+        <button class="btn-secondary" onclick="showSection('features')">Learn More</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES SECTION -->
+  <section id="features" class="section hidden">
+    <h2 class="section-title">Powerful Features</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Secure Access</h3>
+        <p>Military-grade encryption and password protection for all your private content</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📸</div>
+        <h3>Smart Gallery</h3>
+        <p>AI-powered organization and lightning-fast retrieval of your media library</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">☁️</div>
+        <h3>Cloud Integration</h3>
+        <p>Seamlessly synced with Google Drive for unlimited storage capacity</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Analytics Dashboard</h3>
+        <p>Comprehensive insights and statistics about your content at a glance</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3>Premium Design</h3>
+        <p>Stunning UI/UX crafted for the ultimate visual experience</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Lightning Fast</h3>
+        <p>Optimized performance for instant loading and smooth interactions</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY SECTION -->
+  <section id="gallery" class="section hidden">
+    <h2 class="section-title">Private Gallery</h2>
+    <div id="galleryContainer"></div>
+  </section>
+
+  <!-- DASHBOARD SECTION -->
+  <section id="dashboard" class="section hidden">
+    <h2 class="section-title">Dashboard</h2>
+    <div class="dashboard-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="totalImages">0</div>
+        <div class="stat-label">Total Images</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="storageUsed">0 GB</div>
+        <div class="stat-label">Storage Used</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="lastUpdated">-</div>
+        <div class="stat-label">Last Updated</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">Security Status</div>
+      </div>
+    </div>
+    <div style="margin-top: 60px;">
+      <h3 style="margin-bottom: 30px;">Recent Activity</h3>
+      <div id="galleryContainer2"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="section hidden">
+    <h2 class="section-title">Get In Touch</h2>
+    <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+      <p style="color: var(--text-muted); font-size: 1.2rem; margin-bottom: 40px;">
+        Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+      </p>
+      <div class="feature-card">
+        <div class="feature-icon">📧</div>
+        <h3>Email Us</h3>
+        <p>contact@premium.com</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PASSWORD MODAL -->
+  <div id="passwordModal" class="modal">
+    <div class="modal-content">
+      <h2>🔐 Secure Access</h2>
+      <p>Enter password to continue</p>
+      <input type="password" class="modal-input" id="passwordInput" placeholder="Enter password">
+      <div class="error-msg hidden" id="errorMsg">Incorrect password</div>
+      <button class="btn-primary" onclick="verifyPassword()" style="width: 100%;">Unlock</button>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" class="modal lightbox" onclick="closeLightbox()">
+    <img id="lightboxImg">
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Premium Platform. All rights reserved.</p>
+  </footer>
+
+  <script>
+    
+  const API_KEY = "AIzaSyBz2wPSW0OeRjmDU7iicYFxQ4-bJP-BWyg";
+    const FOLDER_ID = "1rmqDQXfi3n3oCCS1CfW55iAnilbQNF-G";
+
+    let isAuthenticated = sessionStorage.getItem('auth') === 'true';
+    let targetSection = '';
+    let cachedImages = [];
+
+ document.addEventListener('DOMContentLoaded', () => {
+  if (isAuthenticated) {
+    document.getElementById('userText').textContent = 'Admin';
+  }
+});
+
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    function showSection(section) {
+      const sections = ['home', 'features', 'gallery', 'dashboard', 'contact'];
+      sections.forEach(s => {
+        document.getElementById(s).classList.add('hidden');
+      });
+      document.getElementById(section).classList.remove('hidden');
+      
+      if (section === 'home') {
+        document.getElementById(section).classList.remove('section');
+        document.getElementById(section).classList.add('hero');
+      }
+    }
+
+    function requestAccess(section) {
+      if (!isAuthenticated) {
+        targetSection = section;
+        document.getElementById('passwordModal').classList.add('active');
+        document.getElementById('passwordInput').focus();
+      } else {
+        showSection(section);
+        if (section === 'gallery' && cachedImages.length === 0) {
+          loadGallery();
+        }
+        if (section === 'dashboard' && cachedImages.length === 0) {
+          loadGallery();
+        }
+      }
+    }
+
+   async function verifyPassword() {
+  const input = document.getElementById('passwordInput').value;
+  const errorMsg = document.getElementById('errorMsg');
+
+  try {
+    const res = await fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: input })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      isAuthenticated = true;
+      sessionStorage.setItem('auth', 'true');
+
+      document.getElementById('passwordModal').classList.remove('active');
+      document.getElementById('passwordInput').value = '';
+      errorMsg.classList.add('hidden');
+
+      showSection(targetSection);
+      if (cachedImages.length === 0) loadGallery();
+    } else {
+      errorMsg.textContent = 'Incorrect password';
+      errorMsg.classList.remove('hidden');
+    }
+  } catch (err) {
+    errorMsg.textContent = 'Server error. Try again.';
+    errorMsg.classList.remove('hidden');
+  }
+}
+
+    document.getElementById('passwordInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') verifyPassword();
+    });
+
+    async function loadGallery() {
+      const container1 = document.getElementById('galleryContainer');
+      const container2 = document.getElementById('galleryContainer2');
+      
+      container1.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading gallery...</p></div>';
+      if (container2) container2.innerHTML = container1.innerHTML;
+
+      try {
+        const url = `https://www.googleapis.com/drive/v3/files?q='${FOLDER_ID}'+in+parents+and+mimeType+contains+'image/'&fields=files(id,name,thumbnailLink,createdTime)&key=${API_KEY}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        cachedImages = data.files || [];
+        
+        // Update stats
+        document.getElementById('totalImages').textContent = cachedImages.length;
+        document.getElementById('storageUsed').textContent = (cachedImages.length * 0.5).toFixed(1) + ' GB';
+        if (cachedImages.length > 0) {
+          const lastDate = new Date(cachedImages[0].createdTime);
+          document.getElementById('lastUpdated').textContent = lastDate.toLocaleDateString();
+        }
+
+        renderGallery(container1, cachedImages);
+        if (container2) renderGallery(container2, cachedImages.slice(0, 8));
+      } catch (error) {
+        container1.innerHTML = '<div class="loading"><p>Error loading gallery. Please check API key.</p></div>';
+      }
+    }
+
+    function renderGallery(container, images) {
+      container.innerHTML = '';
+      const grid = document.createElement('div');
+      grid.className = 'gallery-grid';
+
+      images.forEach(file => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+
+        const img = document.createElement('img');
+        img.src = file.thumbnailLink.replace('=s220', '=s800');
+        img.alt = file.name;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'gallery-overlay';
+        overlay.innerHTML = `<h4 style="color: white;">${file.name}</h4>`;
+
+        item.appendChild(img);
+        item.appendChild(overlay);
+        
+        item.onclick = () => openLightbox(img.src);
+        grid.appendChild(item);
+      });
+
+      container.appendChild(grid);
+    }
+
+    function openLightbox(src) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightbox').classList.add('active');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+      if (e.target.id === 'lightbox') closeLightbox();
+    });
+  </script>
+
+</body>
+</html>
